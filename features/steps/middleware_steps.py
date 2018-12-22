@@ -1,5 +1,5 @@
 import simplejson as json
-from behave import given, then, when
+from behave import given, then, when  # pylint: disable=E0611
 
 valid_json_payload = {
     "a_string": "value1",
