@@ -29,7 +29,6 @@ def decorator(
                 raise Exception('`event` must be a dictionary')
 
             auth_context = (event_.get('requestContext') or {}).get('authorizer')
-            middleware_obj = dict()
 
             if not payload_parser:
                 response = lambda_handler(event_, context)
