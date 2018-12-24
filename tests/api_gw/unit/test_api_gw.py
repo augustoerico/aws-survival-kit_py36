@@ -14,21 +14,7 @@ def assert_common_conditions(response: dict) -> None:
     assert not any(key not in ['statusCode', 'body', 'headers'] for key in response)
 
 
-# def test_0():
-#     # given
-#     @middleware
-#     def any_lambda_handler(_, __):
-#         return {
-#             "statusCode": 200
-#         }
-
-#     # when
-#     response = any_lambda_handler(None, None)
-
-#     # then
-#     assert_common_conditions(response)
-
-def test_1():
+def test_middleware_should_not_cause_any_effect():
     # given
     @middleware()
     def any_lambda_handler(_, __):
@@ -43,7 +29,7 @@ def test_1():
     assert_common_conditions(response)
 
 
-def test_2():
+def test_middleware_should_parse_dict_body_to_str():
     # given
     response_body = {
         "attr1": "value1",
@@ -69,7 +55,7 @@ def test_2():
     assert json.loads(response['body']) == response_body
 
 
-def test_3():
+def test_middleware_should_do_nothing_on_str_body():
     # given
     response_body = {
         "attr1": "value1",
@@ -95,7 +81,7 @@ def test_3():
     assert json.loads(response['body']) == response_body
 
 
-def test_5():
+def test_middleware_should_handle_unhandled_exception_on_lambda_implementation():
     # given
     e_message = 'Unhandled exception'
 
@@ -122,7 +108,7 @@ def test_5():
 
 # now with handlers ====================================================================================================
 
-def test_6():
+def test_middleware_should_parse_body_and_add_attr():
     # given
     def payload_parser(body: str, _, __):
         return {**json.loads(body), "attr0": "value0"}
@@ -158,7 +144,7 @@ def test_6():
     assert rsp_body == {"attr1": 1, "attr0": "value0"}
 
 
-def test_8():
+def test_middleware_should_handle_exception_on_payload_parser():
     # given
     def payload_parser(_, __, ___):
         raise Exception("Unhandled exception in parser")
@@ -180,7 +166,7 @@ def test_8():
     assert response['statusCode'] == 500
 
 
-def test_9():
+def test_middleware_should_invoke_on_error_on_payload_parser_exception():
     # given
     def payload_parser(_, __, ___):
         raise Exception()
@@ -211,7 +197,7 @@ def test_9():
 
 
 # exception on error handler
-def test_11():
+def test_middleware_should_handle_exception_raised_on_payload_parser_error_handler():
     # given
     def payload_parser(_):
         raise Exception()
