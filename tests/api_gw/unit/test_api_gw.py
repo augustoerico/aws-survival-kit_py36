@@ -1,6 +1,6 @@
 import simplejson as json
 
-from aws_survival_kit.api_gw import middleware
+from aws_survival_kit.api_gw.core import middleware
 
 
 def assert_common_conditions(response: dict) -> None:
