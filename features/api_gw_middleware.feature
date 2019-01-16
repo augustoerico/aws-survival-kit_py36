@@ -8,3 +8,14 @@ Scenario: event with valid JSON payload
     When the middleware is invoked
     
     Then the resulting event object contains the parsed JSON
+
+
+Scenario: event with invalid JSON payload
+
+    Given an APIGW event object with an invalid JSON payload
+    And a JSON parser
+    And a JSON parser exception handler
+
+    When the middleware is invoked
+    
+    Then the resulting
